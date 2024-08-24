@@ -5,5 +5,5 @@ CMakeCache.txt
 src/Makefile
 .idea
 
-PSQLProxyServer
+server.out
 sql_queries.log
