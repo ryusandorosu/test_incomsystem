@@ -1,31 +1,30 @@
 #ifndef PROXY_SERVER_H
 #define PROXY_SERVER_H
 
-#include <arpa/inet.h>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <cstring>
-#include <sys/socket.h>
-#include <sys/select.h>
-#include "logger.h"
+#include <fstream>
+#include <thread>
 
 class ProxyServer {
 public:
-    ProxyServer(const char* listen_ip, uint16_t listen_port, const char* db_server_ip, uint16_t db_server_port);
-    bool start();
+  void start(int port);
 
 private:
-    int create_socket();
-    void handle_client(int client_sock, int db_sock);
+  int createServerSocket(int port);
+  static void handleConnections(int serverSocket);
+  static void* handleClient(void*);
+  static void createLogFile();
+  static void logSQLQuery(const std::string& query);
+  static std::ofstream& getLogFile();
 
-    const char* listen_ip_;
-    uint16_t listen_port_;
-    const char* db_server_ip_;
-    uint16_t db_server_port_;
-    int listen_sock_;
+  static std::ofstream logFile;
 };
 
-#endif // PROXY_SERVER_H
+#endif  // PROXY_SERVER_H

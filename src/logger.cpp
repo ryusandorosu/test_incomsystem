@@ -1,13 +1,15 @@
-#include "logger.h"
+#include "proxy_server.h"
 
-std::mutex Logger::log_mutex;
-std::ofstream Logger::log_file("logs/sql_queries.log", std::ios::app);
+std::ofstream ProxyServer::logFile;
 
-void Logger::log_query(const std::string& query) {
-    std::lock_guard<std::mutex> lock(log_mutex);
-    if (log_file.is_open()) {
-        log_file << query << std::endl;
-    } else {
-        std::cerr << "Failed to open log file." << std::endl;
-    }
+void ProxyServer::createLogFile() {
+  logFile.open("sql_queries.log", std::ios_base::out | std::ios_base::app);
+  if (!logFile.is_open()) {
+    std::cerr << "Ошибка при открытии файла для логирования" << std::endl;
+    exit(1);
+  }
+}
+
+void ProxyServer::logSQLQuery(const std::string& query) {
+  logFile << query << std::endl;
 }

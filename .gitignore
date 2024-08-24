@@ -4,4 +4,6 @@ CMakeCache.txt
 *.cmake
 src/Makefile
 .idea
-PostgreSQLProxy
+
+PostgreSQLProxyServer
+test_client

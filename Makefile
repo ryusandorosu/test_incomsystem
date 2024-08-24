@@ -1,6 +1,6 @@
-EXE = PostgreSQLProxy
+EXE = PostgreSQLProxyServer
 
-all: rebuild run
+all: rebuild
 install:
 	cd src && cmake CMakeLists.txt && make
 	make clean
@@ -8,6 +8,8 @@ uninstall: clean
 	rm -rf src/Makefile $(EXE)
 clean:
 	cd src && rm -rf cmake-build-debug CMakeFiles CMakeCache.txt *.cmake
+	rm -rf test_client sql_queries.log
 rebuild: uninstall install
-run:
-	./$(EXE)
+
+test_install:
+	g++ -Wall -Werror -Wextra src/test_client.cpp -o test_client
