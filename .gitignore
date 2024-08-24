@@ -5,8 +5,7 @@ CMakeCache.txt
 src/Makefile
 .idea
 
-PostgreSQLProxyServer
+PSQLProxyServer
 sql_queries.log
-test_client
 
 check_proxy.sh

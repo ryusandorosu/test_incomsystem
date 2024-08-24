@@ -1,10 +1,20 @@
 #include "proxy_server.h"
 
+void ProxyServer::start(int port) {
+  int serverSocket = createServerSocket(port);
+
+  createLogFile();
+
+  while (true) {
+    handleConnections(serverSocket);
+  }
+}
+
 int main(int argc, char** argv) {
   int port = 8080; // Default port
 
   if (argc != 2) {
-    std::cout << "Usage: ./PostgreSQLProxy <port>" << std::endl;
+    std::cout << "Usage: ./PSQLProxyServer <port>" << std::endl;
     return 1;
   }
 

@@ -1,4 +1,4 @@
-EXE = PostgreSQLProxyServer
+EXE = PSQLProxyServer
 
 all: rebuild
 install:
