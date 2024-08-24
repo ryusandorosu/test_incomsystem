@@ -1,0 +1,7 @@
+cmake-build-debug
+CMakeFiles
+CMakeCache.txt
+*.cmake
+src/Makefile
+.idea
+PostgreSQLProxy
