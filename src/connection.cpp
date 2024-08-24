@@ -13,8 +13,8 @@ void ProxyServer::handleConnections(int serverSocket) {
 
     // Запускаем новый поток для обработки клиента
     pthread_t thread;
-    int* pClientSocket = new int(clientSocket);  // Передаём указатель на сокет
-    if (pthread_create(&thread, NULL, handleClient, pClientSocket) != 0) {
+    int* pClientSocket = new int(clientSocket);  // Передаем указатель на сокет
+    if (pthread_create(&thread, NULL, ProxyServer::handleClient, pClientSocket) != 0) {
       std::cerr << "Ошибка при создании потока для клиента" << std::endl;
       close(clientSocket);
       delete pClientSocket;

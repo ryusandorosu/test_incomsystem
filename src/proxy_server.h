@@ -1,6 +1,8 @@
 #ifndef PROXY_SERVER_H
 #define PROXY_SERVER_H
 
+#include <algorithm>
+#include <cctype>
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -19,11 +21,12 @@ public:
 
 private:
   int createServerSocket(int port);
+  static int createAndConfigureSocket(int port, bool isServer);
   static void handleConnections(int serverSocket);
-  static void* handleClient(void*);
+  static void* handleClient(void* arg);
   static void createLogFile();
   static void logSQLQuery(const std::string& query);
-  static std::ofstream& getLogFile();
+  static std::string trim(const std::string& str);
 
   static std::ofstream logFile;
 };
