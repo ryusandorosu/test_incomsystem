@@ -6,4 +6,7 @@ src/Makefile
 .idea
 
 PostgreSQLProxyServer
+sql_queries.log
 test_client
+
+check_proxy.sh
