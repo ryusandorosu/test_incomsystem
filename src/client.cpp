@@ -4,10 +4,11 @@ void* ProxyServer::handleClient(void* arg) {
   int clientSock = *(int*)arg;
   delete (int*)arg;  // Освобождаем память
 
-  const int initialBufferSize = 2; // Начальный размер буфера
-  int bufferSize = pow(initialBufferSize, 22);
-  std::cout << "bufferSize: " << bufferSize << std::endl;
-  char buffer[bufferSize];
+  // const int initialBufferSize = 2; // Начальный размер буфера
+  // unsigned long bufferSize = pow(initialBufferSize, 30);
+  unsigned long bufferSize = 32 * 1024;
+  // std::cout << "bufferSize: " << bufferSize << std::endl;
+  std::vector<char> buffer(bufferSize);
   int bytesReceived;
 
   // Создание сокета для подключения к серверу базы данных
@@ -15,7 +16,7 @@ void* ProxyServer::handleClient(void* arg) {
 
   while (true) {
     // Получение данных от клиента
-    bytesReceived = recv(clientSock, buffer, sizeof(buffer), 0);
+    bytesReceived = recv(clientSock, buffer.data(), bufferSize, 0);
     if (bytesReceived < 0) {
       std::cerr << "Ошибка при получении данных от клиента: " << strerror(errno)
                 << std::endl;
@@ -27,7 +28,7 @@ void* ProxyServer::handleClient(void* arg) {
     }
 
     // Логируем запрос
-    std::string data(buffer, bytesReceived);
+    std::string data(buffer.data(), bytesReceived);
     if (data[0] == 'Q') {                  // Команда типа Query
       std::string query = data.substr(1);  // Удаляем символ 'Q'
       query.erase(query.begin(),
@@ -51,14 +52,14 @@ void* ProxyServer::handleClient(void* arg) {
     }
 
     // Отправка данных на сервер базы данных
-    if (send(dbSock, buffer, bytesReceived, 0) < 0) {
+    if (send(dbSock, buffer.data(), bytesReceived, 0) < 0) {
       std::cerr << "Ошибка при отправке данных на сервер базы данных: "
                 << strerror(errno) << std::endl;
       break;
     }
 
     // Получение ответа от сервера базы данных
-    int bytesSent = recv(dbSock, buffer, sizeof(buffer), 0);
+    int bytesSent = recv(dbSock, buffer.data(), bufferSize, 0);
     if (bytesSent < 0) {
       std::cerr << "Ошибка при получении данных от сервера базы данных: "
                 << strerror(errno) << std::endl;
@@ -66,7 +67,7 @@ void* ProxyServer::handleClient(void* arg) {
     }
 
     // Отправка ответа обратно клиенту
-    if (send(clientSock, buffer, bytesSent, 0) < 0) {
+    if (send(clientSock, buffer.data(), bytesSent, 0) < 0) {
       std::cerr << "Ошибка при отправке данных обратно клиенту: "
                 << strerror(errno) << std::endl;
       break;
