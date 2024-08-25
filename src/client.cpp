@@ -4,7 +4,10 @@ void* ProxyServer::handleClient(void* arg) {
   int clientSock = *(int*)arg;
   delete (int*)arg;  // Освобождаем память
 
-  char buffer[4096];
+  const int initialBufferSize = 2; // Начальный размер буфера
+  int bufferSize = pow(initialBufferSize, 22);
+  std::cout << "bufferSize: " << bufferSize << std::endl;
+  char buffer[bufferSize];
   int bytesReceived;
 
   // Создание сокета для подключения к серверу базы данных
