@@ -1,25 +1,26 @@
 #ifndef PROXY_SERVER_H
 #define PROXY_SERVER_H
 
+#include <arpa/inet.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
 #include <algorithm>
 #include <cctype>
-#include <iostream>
 #include <cstring>
-#include <string>
-#include <vector>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <fstream>
+#include <iostream>
+#include <string>
 #include <thread>
+#include <vector>
 
 class ProxyServer {
-public:
+ public:
   void start(int port);
 
-private:
+ private:
   int createServerSocket(int port);
   static int createAndConfigureSocket(int port, bool isServer);
   static void handleConnections(int serverSocket);

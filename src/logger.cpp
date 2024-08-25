@@ -21,7 +21,7 @@ void ProxyServer::logSQLQuery(const std::string& query) {
 std::string ProxyServer::trim(const std::string& str) {
   const auto start = str.find_first_not_of(" \t\n\r\f\v");
   if (start == std::string::npos) {
-    return ""; // Строка состоит только из пробелов
+    return "";  // Строка состоит только из пробелов
   }
   const auto end = str.find_last_not_of(" \t\n\r\f\v");
   return str.substr(start, end - start + 1);

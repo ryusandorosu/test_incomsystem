@@ -11,10 +11,10 @@ void ProxyServer::start(int port) {
 }
 
 int main(int argc, char** argv) {
-  int port = 8080; // Default port
+  int port = 8080;  // Порт по умолчанию
 
   if (argc != 2) {
-    std::cout << "Usage: ./PSQLProxyServer <port>" << std::endl;
+    std::cout << "Использование: ./PSQLProxyServer <port>" << std::endl;
     return 1;
   }
 
@@ -24,7 +24,8 @@ int main(int argc, char** argv) {
     std::cerr << "Ошибка: Порт должен быть целым числом." << std::endl;
     return 1;
   } catch (const std::out_of_range& e) {
-    std::cerr << "Ошибка: Порт должен быть в диапазоне от 0 до 65535." << std::endl;
+    std::cerr << "Ошибка: Порт должен быть в диапазоне от 0 до 65535."
+              << std::endl;
     return 1;
   }
 
