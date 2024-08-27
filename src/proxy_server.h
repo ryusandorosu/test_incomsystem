@@ -4,28 +4,30 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include <sys/epoll.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
 #include <algorithm>
 #include <cctype>
-#include <cmath>
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <thread>
 #include <vector>
+#include <thread>
+
+#define MAX_EVENTS 10
 
 class ProxyServer {
- public:
+public:
   void start(int port);
 
- private:
+private:
   int createServerSocket(int port);
   static int createAndConfigureSocket(int port, bool isServer);
   static void handleConnections(int serverSocket);
-  static void* handleClient(void* arg);
+  static void handleClient(int clientSocket);
   static void createLogFile();
   static void logSQLQuery(const std::string& query);
   static std::string trim(const std::string& str);
